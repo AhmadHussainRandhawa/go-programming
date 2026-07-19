@@ -4,12 +4,14 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 	"strings"
 )
 
 func main() {
 	// PerformGetRequest("http://localhost:8000")
-	PerformPostJsonRequest("http://localhost:8000/post")
+	// PerformPostJsonRequest("http://localhost:8000/post")
+	PerformPostFormRequest("http://localhost:8000/postform")
 
 }
 
@@ -62,4 +64,21 @@ func PerformPostJsonRequest(myurl string) {
 
 	fmt.Println("Response content:", string(dataByte))
 
+}
+
+func PerformPostFormRequest(myurl string) {
+
+	data := url.Values{}
+
+	data.Add("firstName", "ahmad")
+	data.Add("lastName", "hussain")
+	data.Add("identity", "Muslim")
+
+	response, _ := http.PostForm(myurl, data)
+
+	contentByte, _ := io.ReadAll(response.Body)
+
+	defer response.Body.Close()
+
+	fmt.Printf(string(contentByte))
 }
