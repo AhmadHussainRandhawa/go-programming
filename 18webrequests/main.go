@@ -35,3 +35,22 @@ func main() {
 	fmt.Println("Response body is:,", string(databyte))
 
 }
+
+func PerformGetRequest(myurl string) {
+	response, err := http.Get(myurl)
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	defer response.Body.Close()
+
+	fmt.Println(response.StatusCode)
+	fmt.Println(response.ContentLength)
+	fmt.Println(response.Body)
+
+	content, _ := io.ReadAll(response.Body)
+
+	fmt.Println(string(content))
+}
