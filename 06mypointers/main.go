@@ -19,4 +19,37 @@ func main() {
 	fmt.Println("New value of ptr:", *ptr)
 	fmt.Println("variable myNumber value is:", myNumber)
 
+	// pointer with structs
+
+	p := &Person{
+		Name: "Ahmad",
+		Age:  20,
+	}
+
+	fmt.Println(p)
+
+	// Interesting flow
+
+	x := 10
+	ptr = &x
+
+	s := Student{"Ali", 21}
+	sptr := &s
+
+	fmt.Println(ptr)
+	fmt.Println(sptr)
+
+	fmt.Printf("%p\n", ptr)
+	fmt.Printf("%p\n", sptr)
+
+}
+
+type Person struct {
+	Name string
+	Age  int
+}
+
+type Student struct {
+	Name string
+	Age  int
 }
