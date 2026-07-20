@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 func main() {
-	ahmad := User{"Ahmad", "ahmad@go.dev", true, 21}
+	var ahmad User = User{"Ahmad", "ahmad@go.dev", true, 21}
 	fmt.Println(ahmad)
 	fmt.Printf("Ahmad Details are: %+v\n", ahmad)
 	fmt.Printf("Ahmad age is: %v\n", ahmad.Age)

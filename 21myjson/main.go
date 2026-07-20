@@ -15,7 +15,8 @@ type course struct {
 
 func main() {
 
-	EncodeJson()
+	// EncodeJson()
+	DecodeJson()
 
 }
 
@@ -29,8 +30,55 @@ func EncodeJson() {
 
 	// Package this data as JSON data.
 
-	dataByte, _ := json.MarshalIndent(udemyCourses, "", "\t")
+	dataByte, _ := json.MarshalIndent(udemyCourses, "", "    ")
 
 	fmt.Println(string(dataByte))
+
+}
+
+func DecodeJson() {
+	jsonDataFromWeb := []byte(`
+		{
+			"courseName": "Python Bootcamp",
+			"Price": 199,
+			"website": "udemy.com",
+			"tags": ["ML", "AI", "DL"]
+		}
+	`)
+
+	checkJsonValid := json.Valid(jsonDataFromWeb)
+
+	var udemyCourses course
+
+	if checkJsonValid {
+
+		err := json.Unmarshal(jsonDataFromWeb, &udemyCourses)
+
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+
+	} else {
+		fmt.Println("This is not valid JSON")
+	}
+
+	fmt.Printf("%#v", udemyCourses)
+
+	// Some cases where you just want to store json data to a key, value pair.
+
+	var mapOnlineData map[string]any
+	err := json.Unmarshal(jsonDataFromWeb, &mapOnlineData)
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Printf("\n\n%#v", mapOnlineData)
+
+	for key, value := range mapOnlineData {
+		fmt.Printf("\nKey is %v and value is %v", key, value)
+	}
 
 }
