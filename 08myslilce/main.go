@@ -41,4 +41,15 @@ func main() {
 
 	courses = append(courses[:index], courses[index+1:]...)
 	fmt.Println(courses)
+
+	// courses[index] = updatedCourse   // REPLACE an element that already exists
+	// courses = append(courses, x)     // ADD a new element, growing the slice
+
+	nums := []int{10, 20, 30}
+
+	nums[1] = 999
+	fmt.Println(nums) // [10, 999, 30]  <- length still 3, just replaced index 1
+
+	nums = append(nums, 40)
+	fmt.Println(nums) // [10, 999, 30, 40]  <- length grew to 4
 }
