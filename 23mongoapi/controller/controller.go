@@ -6,6 +6,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/AhmadHussainRandhawa/mongoapi/model"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
@@ -43,4 +44,21 @@ func init() {
 	collection = client.Database(dbName).Collection(colName)
 
 	fmt.Println("Collection instance is ready")
+}
+
+// MongoDB helpers
+
+// insert one record
+func InsertOne(movie model.Netflix) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	insertOneResult, err := collection.InsertOne(ctx, movie)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println("Inserted 1 movie in db with id:", insertOneResult.InsertedID)
+
 }
