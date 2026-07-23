@@ -80,3 +80,27 @@ func updateOneMovie(movieId string) {
 	fmt.Println(result.ModifiedCount)
 
 }
+
+// Delete one record
+
+func deleteOneMovie(movieId string) {
+	id, _ := primitive.ObjectIDFromHex(movieId)
+	filter := bson.M{"_id": id}
+	result, _ := collection.DeleteOne(context.Background(), filter)
+
+	fmt.Println(result.DeletedCount)
+}
+
+// Delete all records
+
+func deleteAllMovie() {
+
+	result, err := collection.DeleteMany(context.Background(), bson.M{})
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(result.DeletedCount)
+
+}
