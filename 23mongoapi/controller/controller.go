@@ -2,8 +2,10 @@ package controller
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
+	"net/http"
 	"time"
 
 	"github.com/AhmadHussainRandhawa/mongoapi/model"
@@ -128,4 +130,12 @@ func getAllMovies() []bson.M {
 	}
 	return movies
 
+}
+
+// Actual controller - file
+
+func GetAllMovies(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("content-type", "application/json")
+	movies := getAllMovies()
+	json.NewEncoder(w).Encode(movies)
 }
