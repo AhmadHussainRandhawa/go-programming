@@ -10,7 +10,6 @@ import (
 
 	"github.com/AhmadHussainRandhawa/mongoapi/model"
 	"github.com/gorilla/mux"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
@@ -69,7 +68,7 @@ func insertOne(movie model.Netflix) {
 }
 
 func updateOneMovie(movieId string) {
-	id, _ := primitive.ObjectIDFromHex(movieId)
+	id, _ := bson.ObjectIDFromHex(movieId)
 
 	filter := bson.M{"_id": id}
 	update := bson.M{"$set": bson.M{"watched": true}}
@@ -87,7 +86,7 @@ func updateOneMovie(movieId string) {
 // Delete one record
 
 func deleteOneMovie(movieId string) {
-	id, _ := primitive.ObjectIDFromHex(movieId)
+	id, _ := bson.ObjectIDFromHex(movieId)
 	filter := bson.M{"_id": id}
 	result, _ := collection.DeleteOne(context.Background(), filter)
 
@@ -147,10 +146,16 @@ func CreateMovie(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Methods", "PUT")
 
 	var movie model.Netflix
-	json.NewDecoder(r.Body).Decode(&movie)
+	err := json.NewDecoder(r.Body).Decode(&movie)
+
+	if err != nil {
+		http.Error(w, "Invalid JSON: "+err.Error(), http.StatusBadRequest)
+		return
+	}
 
 	insertOne(movie)
 
+	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(movie)
 
 }
