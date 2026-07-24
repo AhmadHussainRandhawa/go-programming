@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/AhmadHussainRandhawa/mongoapi/model"
+	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
@@ -135,7 +136,28 @@ func getAllMovies() []bson.M {
 // Actual controller - file
 
 func GetAllMovies(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("content-type", "application/json")
+	w.Header().Set("Content-Type", "application/json")
 	movies := getAllMovies()
 	json.NewEncoder(w).Encode(movies)
+}
+
+func CreateMovie(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Methods", "PUT")
+
+	var movie model.Netflix
+	json.NewDecoder(r.Body).Decode(&movie)
+
+	InsertOne(movie)
+
+	json.NewEncoder(w).Encode(movie)
+
+}
+
+func MarkedAsWatched(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Methods", "PUT")
+
+	params := mux.Vars(r)
+	updateOneMovie(params["id"])
 }
