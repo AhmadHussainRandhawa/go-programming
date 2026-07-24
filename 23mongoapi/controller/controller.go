@@ -54,7 +54,7 @@ func init() {
 // MongoDB helpers
 
 // insert one record
-func InsertOne(movie model.Netflix) {
+func insertOne(movie model.Netflix) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second) // always use context like in that way.
 	defer cancel()                                                          // In the following i use less in this way, but this is ideal
 
@@ -149,7 +149,7 @@ func CreateMovie(w http.ResponseWriter, r *http.Request) {
 	var movie model.Netflix
 	json.NewDecoder(r.Body).Decode(&movie)
 
-	InsertOne(movie)
+	insertOne(movie)
 
 	json.NewEncoder(w).Encode(movie)
 

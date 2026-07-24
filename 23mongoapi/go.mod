@@ -3,6 +3,7 @@ module github.com/AhmadHussainRandhawa/mongoapi
 go 1.25.0
 
 require (
+	github.com/gorilla/mux v1.8.1
 	go.mongodb.org/mongo-driver v1.17.9
 	go.mongodb.org/mongo-driver/v2 v2.8.0
 )
