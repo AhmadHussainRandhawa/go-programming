@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	var wg sync.WaitGroup
+	var wg sync.WaitGroup // WaitGroup — wait for concurrent work to finish.
 
 	wg.Add(3)
 

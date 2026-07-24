@@ -2,31 +2,20 @@ package main
 
 import (
 	"fmt"
-	"net/http"
+	"time"
 )
 
-func getStatusCode(endpoint string) {
-
-	resp, err := http.Get(endpoint)
-
-	if err != nil {
-		panic(err)
-	}
-
-	fmt.Printf("%d is status code for website: %s\n", resp.StatusCode, endpoint)
-
+func test(val string) {
+	fmt.Println(val)
 }
 
 func main() {
-	websitelist := []string{
-		"https://www.google.com/",
-		"https://www.youtube.com/",
-		"https://www.github.com/",
-		"https://www.linkedin.com/",
-	}
+	go test("Hello")
+	go test("Hello2")
 
-	for _, web := range websitelist {
-		getStatusCode(web)
-	}
+	time.Sleep(time.Second * 3)
 
+	fmt.Println("world")
 }
+
+// Goroutines — create concurrent execution.
