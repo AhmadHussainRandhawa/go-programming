@@ -96,7 +96,7 @@ func deleteOneMovie(movieId string) {
 
 // Delete all records
 
-func deleteAllMovie() {
+func deleteAllMovie() int64 {
 
 	result, err := collection.DeleteMany(context.Background(), bson.M{})
 
@@ -105,6 +105,7 @@ func deleteAllMovie() {
 	}
 
 	fmt.Println(result.DeletedCount)
+	return result.DeletedCount
 
 }
 
@@ -160,4 +161,21 @@ func MarkedAsWatched(w http.ResponseWriter, r *http.Request) {
 
 	params := mux.Vars(r)
 	updateOneMovie(params["id"])
+}
+
+func DeleteAMovie(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/x-www-form-urlencode")
+	w.Header().Set("Allow-Control-Allow-Methods", "DELETE")
+
+	params := mux.Vars(r)
+	deleteOneMovie(params["id"])
+	json.NewEncoder(w).Encode(params["id"])
+}
+
+func DeleteAllMovies(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/x-www-form-urlencode")
+	w.Header().Set("Allow-Control-Allow-Methods", "DELETE")
+
+	count := deleteAllMovie()
+	json.NewEncoder(w).Encode(count)
 }
