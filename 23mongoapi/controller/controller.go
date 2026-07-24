@@ -52,8 +52,8 @@ func init() {
 
 // insert one record
 func InsertOne(movie model.Netflix) {
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second) // always use context like in that way.
+	defer cancel()                                                          // In the following i use less in this way, but this is ideal
 
 	insertOneResult, err := collection.InsertOne(ctx, movie)
 
@@ -102,5 +102,30 @@ func deleteAllMovie() {
 	}
 
 	fmt.Println(result.DeletedCount)
+
+}
+
+// get all movies from database - also i will show the ideal way of using context
+
+func getAllMovies() []bson.M {
+	ctx, cancel := context.WithTimeout(context.Background(), 7*time.Second)
+	defer cancel()
+
+	cur, _ := collection.Find(ctx, bson.M{})
+
+	var movies []bson.M
+
+	for cur.Next(ctx) {
+		var movie bson.M
+		err := cur.Decode(&movie)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		movies = append(movies, movie)
+
+	}
+	return movies
 
 }
