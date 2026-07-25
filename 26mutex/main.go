@@ -52,3 +52,5 @@ func increment(wg *sync.WaitGroup) {
 	counter = temp
 
 }
+
+// `go run --race main.go` - to check for race condition.
